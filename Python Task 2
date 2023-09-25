@@ -1,0 +1,34 @@
+from PIL import Image
+from pydub import AudioSegment
+import numpy as np
+
+# Load the image
+image_path = 'your_image.png'
+img = Image.open(image_path)
+
+# Define some parameters
+duration = 1000  # Duration of the audio in milliseconds (adjust as needed)
+sample_rate = 44100  # Audio sample rate in Hz
+volume = 0.2  # Adjust the volume
+
+audio = AudioSegment.silent(duration=duration
+img_data = np.array(img)
+
+for row in img_data:
+    for pixel in row:
+        r, g, b = pixel[:3]  # Get RGB values of the pixel
+
+        
+        frequency = int(440 + r * 0.1 + g * 0.3 + b * 0.6)
+
+      
+        pixel_audio = AudioSegment.sine(frequency)
+
+        pixel_audio = pixel_audio - 20 * np.log10(1/volume)
+
+
+        audio += pixel_audio
+output_audio_path = 'output_audio.wav'
+audio.export(output_audio_path, format='wav')
+
+print(f"Image converted to sound and saved as {output_audio_path}")
